@@ -16,10 +16,12 @@ public class CalenderRequest {
 	private String remainder;
 	private boolean remainderFlag;
 	
+	@JsonProperty("DurationInMinutes")
 	public int getDuration() {
 		return duration;
 	}
-
+	
+	@JsonProperty("DurationInMinutes")
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}

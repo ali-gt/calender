@@ -21,7 +21,9 @@ public class CalenderEventBuilder {
 	private String calenderUser = null;
 	private CalenderEvent calenderEvent = null;
 	
-	
+	/*
+	 * Builds the the event from the request and stores it into a Map.
+	 */
 	public CalenderResponse buildEvent(CalenderRequest request) {
 		calenderUser = request.getUser();
 		calenderEvent = new CalenderEvent(request.getTitle(), request.getEventDate(), request.getLocation(), request.getAttendeeList(), request.getRemainder(), request.getRemainderFlag());
@@ -29,41 +31,58 @@ public class CalenderEventBuilder {
 		CalenderResponse response = new CalenderResponse();
 		response.setStatus("200");
 		response.setStatusMessage("Successfully added calender event");
-		/*
-		int duration = request.getDuration();
-		String eventDate = request.getEventDate();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/d/yyyy hh:mm");
-		LocalDate formattedEventDate = null;
-		LocalDate scheduledEventDate = null;
-		LocalDate now = LocalDate.now();
-		if(eventDate != null && !eventDate.isEmpty()) {
-			formattedEventDate = LocalDate.parse(eventDate, formatter);
-			scheduledEventDate = formattedEventDate.plus(duration, ChronoUnit.MINUTES);
-		}
-		
-		
-		long alert = ChronoUnit.MINUTES.between(formattedEventDate, now);
-		if(alert < 3) {
-			System.out.println("EVENT IS HAPPENING NOW!");
-		}*/
 		return response;
 	}
 	
+	/*
+	 * Retrieves the the event from the request user.	
+	 */
 	public CalenderResponse retrieveEvents(CalenderRequest request) {
 		CalenderResponse response = new CalenderResponse();
 		String user = request.getUser();
-		CalenderEvent event = events.get(user);	
-		response.setStatus("200");
-		response.setStatusMessage("The event '" + event.getTitle() + "' occurs " + event.getEventDate() + " at " + event.getLocation());
+		CalenderEvent event = events.get(user);
+		if(event != null) {
+			response.setStatus("200");
+			response.setStatusMessage("The event '" + event.getTitle() + "' occurs " + event.getEventDate() + " at " + event.getLocation());
+			return response;
+		}
+		response.setStatus("100");
+		response.setStatusMessage("No data found for the user " + user);
 		return response;
 	}
 	
+	/*
+	 * Removes the event User from the Map.
+	 */
 	public CalenderResponse removeEvent(CalenderRequest request) {
 		CalenderResponse response = new CalenderResponse();
 		String user = request.getUser();
 		events.remove(user);
 		response.setStatus("200");
 		response.setStatusMessage("Successfully removed " + user);
+		return response;
+	}
+	
+	/*
+	 * Updates event user.	
+	 */
+	public CalenderResponse updateEvent(CalenderRequest request) {
+		CalenderResponse response = new CalenderResponse();
+		String user = request.getUser();
+		CalenderEvent event = events.get(user);
+		if(event != null) {
+			event.setAttendeeList(request.getAttendeeList());
+			event.setEventDate(request.getEventDate());
+			event.setLocation(request.getLocation());
+			event.setRemainder(request.getRemainder());
+			event.setRemainderFlag(request.getRemainderFlag());
+			event.setTitle(request.getTitle());
+			response.setStatus("200");
+			response.setStatusMessage("The event has been updated for the user " + user);
+			return response;
+		}
+		response.setStatus("100");
+		response.setStatusMessage("No data found for the user " + user);
 		return response;
 	}
 }
