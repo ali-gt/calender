@@ -3,10 +3,13 @@ To run the application, in CalenderApplication class right click and run as java
 There are three endpoints for this service. They are:
 
 localhost:8080/create
+
 localhost:8080/retrieve
+
 localhost:8080/remove
 
 To create an event, use the following JSON:
+
     {
        "User" : "Ali",
        "Title" : "Calender Event Meeting",
@@ -18,6 +21,7 @@ To create an event, use the following JSON:
     }
 
 To retrieve an event, use the following JSON:
+
     {
        "User" : "Ali"
     }
