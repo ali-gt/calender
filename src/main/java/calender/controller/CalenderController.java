@@ -27,13 +27,8 @@ public class CalenderController {
 		return builder.retrieveEvents(request);
 	}
 	
-	@RequestMapping(value = "/retrieve", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/remove", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public CalenderResponse removeCalenderEvents(@RequestBody CalenderRequest request) {
 		return builder.removeEvent(request);
 	}
-	
-	
-	
-	
-
 }
